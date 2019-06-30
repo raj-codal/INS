@@ -7,7 +7,7 @@ import java.util.Scanner;
  * @author Raj Dhanani
  */
 
-class Caeser{
+class Caesar{
     
 //a-97
 //z-122
@@ -17,10 +17,10 @@ class Caeser{
     String plainText="";
     String cipherText="";
     int key;
-    Caeser(){
+    Caesar(){
         
     }
-    Caeser(String plainText,int key){
+    Caesar(String plainText,int key){
         this.plainText = plainText;
         this.key = key;
         encrypt();
@@ -52,7 +52,7 @@ public class INS_P2 {
         String input = in.nextLine();
         System.out.println("Enter key:");
         int key = in.nextInt();
-        Caeser c = new Caeser(input,key);
+        Caesar c = new Caeser(input,key);
         System.out.println("Cipher:"+c.cipherText);
 
     }
