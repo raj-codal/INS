@@ -122,7 +122,7 @@ class PlayFair {
 
 }
 
-public class INS_PLAYFAIRCIPHER {
+public class INS_P5 {
 
     public static void main(String[] args) {
         /*
