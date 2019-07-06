@@ -27,7 +27,7 @@ class MonoAlphabetic {
     }
 
     public MonoAlphabetic(String plainText, String key) {
-        this.key = key;
+        this.key = key.toLowerCase();
         this.plainText = plainText;
         encrypt();
     }
@@ -49,6 +49,21 @@ class MonoAlphabetic {
             }
         }
     }
+
+    String decrypt(String cipherText) {
+        String pT = "";
+        for (int i = 0; i < plainText.length(); i++) {
+            char c = cipherText.charAt(i);
+            if (c >= 'A' && c <= 'Z') {
+                pT += Character.toUpperCase((char) (key.indexOf(Character.toLowerCase(c)) + 65));
+            } else if (c >= 'a' && c <= 'z') {
+                pT += Character.toLowerCase((char) (key.indexOf(c) + 97));
+            } else {
+                pT += c;
+            }
+        }
+        return pT;
+    }
 }
 
 public class INS_P3 {
@@ -68,5 +83,6 @@ public class INS_P3 {
         String plainText = in.nextLine();
         MonoAlphabetic m = new MonoAlphabetic(plainText, key);
         System.out.println("CIPHER:" + m.cipherText);
+        System.out.println("DECIPHER:" + m.decrypt(m.cipherText));
     }
 }
