@@ -6,26 +6,28 @@
 
 3 Write a program to implement Monoalphabetic Cipher.
 
-4 Write a program to implement Playfair Cipher.
+4 Write a program for cryptanalysis of Monoalphabetic Cipher.
 
-5 Write a program to implement Hill Cipher.
+5 Write a program to implement Playfair Cipher.
 
-6 Write a program to implement Vigenere Cipher.
+6 Write a program to implement Hill Cipher.
 
-7 Write a program to implement Vernam Cipher.
+7 Write a program to implement Vigenere Cipher.
 
-8 Write a program to implement Railfence Cipher.
+8 Write a program to implement Vernam Cipher.
 
-9 Write a program to implement Row Transposition Cipher.
+9 Write a program to implement Railfence Cipher.
 
-10 Write a program to implement encryption and decryption using Simplified-DES scheme.
+10 Write a program to implement Row Transposition Cipher.
 
-11 Write a program to implement encryption and decryption using AES scheme.
+11 Write a program to implement encryption and decryption using Simplified-DES scheme.
 
-12 Write a program to implement RSA algorithm.
+12 Write a program to implement encryption and decryption using AES scheme.
 
-13 Write a program to implement Diffie-Hellman Key Exchange algorithm.
+13 Write a program to implement RSA algorithm.
 
-14 Implement SHA-1 Algorithm.
+14 Write a program to implement Diffie-Hellman Key Exchange algorithm.
 
-15 Write a program to implement two Digital Signature Algorithms: DSA and Elgamal.
+15 Implement SHA-1 Algorithm.
+
+16 Write a program to implement two Digital Signature Algorithms: DSA and Elgamal.
