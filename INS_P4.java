@@ -1,5 +1,6 @@
+//cryptanalysis of monoalphabetic cipher, using alphabets' statistics of english language... 
 
-package monoalphabeticcracker;
+package ins;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -91,7 +92,7 @@ class cryptAnalysisMonoAlpha{
 }
 
 
-public class driver {
+public class INS_P4 {
 
     public static void main(String[] args) throws FileNotFoundException {
         System.out.println("ENTER CIPHER TEXT FILE PATH AND NAME:");
