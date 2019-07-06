@@ -1,3 +1,5 @@
+//PlayFair cipher
+
 package ins;
 
 import java.util.Scanner;
@@ -128,7 +130,7 @@ class PlayFair {
 
 }
 
-public class INS_PLAY_FAIR_CIPHER {
+public class INS_P5 {
 
     public static void main(String[] args) {
         /*
