@@ -1,6 +1,6 @@
 # INS
 
-1 Write a C program to find GCD of two numbers. Also check whether a number is prim or not. Display a list of first 100 prime numbers.
+1 Write a C/C++ program to find GCD of two numbers. Also check whether a number is prim or not. Display a list of first 100 prime numbers.
 
 2 Write a program to implement Caesar Cipher.
 
