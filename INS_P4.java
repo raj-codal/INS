@@ -1,9 +1,8 @@
 
-//simple naive cryptanalysis of monoalphabetic substitution cipher...
-//based on probability of the occurence of alphabets in English language...
-
 package monoalphabeticcracker;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -94,13 +93,17 @@ class cryptAnalysisMonoAlpha{
 
 public class driver {
 
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in); 
-        System.out.println("ENTER CIPHER TEXT:");
-        String test = in.nextLine();
+    public static void main(String[] args) throws FileNotFoundException {
+        System.out.println("ENTER CIPHER TEXT FILE PATH AND NAME:");
+        Scanner i = new Scanner(System.in); 
+        Scanner in = new Scanner(new File(i.nextLine())); 
+        String test="";
+        while(in.hasNextLine()){
+            test += in.nextLine();
+        }
         test = test.toLowerCase();
         cryptAnalysisMonoAlpha x = new cryptAnalysisMonoAlpha(test);
-        System.out.println(x.cipherText+">>"+x.plainText);
+        System.out.println("CIPHER:\n"+x.cipherText+"\nPLAIN:\n"+x.plainText);
     }
     
 }
