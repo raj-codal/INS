@@ -1,5 +1,3 @@
-//PlayFair cipher
-
 package ins;
 
 import java.util.Scanner;
@@ -66,28 +64,22 @@ class PlayFair {
     }
 
     String addJunk(String plainText) {
-        //adding junk x or y to make length of plain text even and also unpair two same chars which are together.
-        String t = plainText;
-        int junkCount = 0;
-        for (int i = 0; i < plainText.length() - 1; i++) {
-            if (plainText.charAt(i) == plainText.charAt(i + 1)) {
-                if (plainText.charAt(i) == 'x') {
-                    t = t.substring(0, i + junkCount + 1) + "y" + t.substring(i + 1 + junkCount);
-                } else {
-                    t = t.substring(0, i + junkCount + 1) + "x" + t.substring(i + 1 + junkCount);
+        String temp = plainText;
+        for (int i = 0; i < temp.length(); i += 2) {
+            char x1, x2;
+            x1 = temp.charAt(i);
+            if (i + 1 == temp.length()) {
+                if (temp.length() % 2 != 0) {
+                    temp = temp + "" + (x1 == 'x' ? 'y' : 'x');
                 }
-                junkCount++;
-            }
-        }
-        if (t.length() % 2 == 0) {
-            return t;
-        } else {
-            if (t.charAt(t.length() - 1) == 'x') {
-                return t + "y";
             } else {
-                return t + "x";
+                x2 = temp.charAt(i + 1);
+                if (x1 == x2) {
+                    temp = temp.substring(0, i + 1) + (x1 == 'x' ? 'y' : 'x') + temp.substring(i + 1);
+                }
             }
         }
+        return temp;
     }
 
     MatrixIndex indexOf(char x) {
@@ -118,8 +110,8 @@ class PlayFair {
                 c1 = matrix[a.x][(a.y + 1) % 5];
                 c2 = matrix[b.x][(b.y + 1) % 5];
             } else if (a.y == b.y) {
-                c1 = matrix[(b.x + 1) % 5][b.y];
-                c2 = matrix[(a.x + 1) % 5][a.y];
+                c1 = matrix[(a.x + 1) % 5][a.y];
+                c2 = matrix[(b.x + 1) % 5][b.y];
             } else {
                 c1 = matrix[a.x][b.y];
                 c2 = matrix[b.x][a.y];
@@ -130,15 +122,15 @@ class PlayFair {
 
 }
 
-public class INS_P5 {
+public class INS_PLAYFAIRCIPHER {
 
     public static void main(String[] args) {
         /*
             Example:
                 ENTER PLAIN TEXT AND KEY (LINE SEPERATED):
-                raspberry
-                apple
-                CIPHER:qprlabswtw
+                committee
+                textile
+                CIPHER:aqkirdeiexxi
          */
         System.out.println("ENTER PLAIN TEXT AND KEY (LINE SEPERATED):");
         Scanner in = new Scanner(System.in);
