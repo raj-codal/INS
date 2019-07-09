@@ -1,29 +1,24 @@
 package ins;
 
 import java.util.Scanner;
-
 /**
  *
  * @author Raj Dhanani
  */
 class MatrixIndex {
-
     int x, y;
-
     public MatrixIndex(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
 }
 
 class PlayFair {
-
     String plainText;
     String cipherText;
     String key;
     char matrix[][] = new char[5][5];
-
+    
     public PlayFair(String plainText, String key) {
         this.plainText = plainText;
         this.key = removeSpaces(key).toLowerCase();
@@ -33,7 +28,7 @@ class PlayFair {
         initMatrix(temp);
         encrypt();
     }
-
+    
     String removeSpaces(String s) {
         String temp = "";
         for (int i = 0; i < s.length(); i++) {
@@ -81,7 +76,7 @@ class PlayFair {
         }
         return temp;
     }
-
+    
     MatrixIndex indexOf(char x) {
         if (x == 'j') {
             x = 'i';
@@ -119,7 +114,31 @@ class PlayFair {
             cipherText += c1 + "" + c2;
         }
     }
-
+    
+    String decrypt(String cipherText) {
+        String temp = cipherText.toLowerCase();
+        MatrixIndex a, b;
+        char p1, p2, c1, c2;
+        String pT = "";
+        for (int i = 0; i < temp.length(); i += 2) {
+            p1 = temp.charAt(i);//same row cange column
+            p2 = temp.charAt(i + 1);
+            a = indexOf(p1);
+            b = indexOf(p2);
+            if (a.x == b.x) {
+                c1 = matrix[a.x][((a.y - 1) % 5 + 5 ) % 5 ];
+                c2 = matrix[b.x][((b.y - 1) % 5 + 5 ) % 5 ];
+            } else if (a.y == b.y) {
+                c1 = matrix[((a.x - 1) % 5 + 5 ) % 5][a.y];
+                c2 = matrix[((b.x - 1) % 5 + 5 ) % 5][b.y];
+            } else {
+                c1 = matrix[a.x][b.y];
+                c2 = matrix[b.x][a.y];
+            }
+            pT += c1 + "" + c2;
+        }
+        return pT;
+    }
 }
 
 public class INS_P5 {
@@ -131,10 +150,12 @@ public class INS_P5 {
                 committee
                 textile
                 CIPHER:aqkirdeiexxi
-         */
+                DECRYPTION:comxmitxteex
+        */
         System.out.println("ENTER PLAIN TEXT AND KEY (LINE SEPERATED):");
         Scanner in = new Scanner(System.in);
         PlayFair p = new PlayFair(in.nextLine(), in.nextLine());
         System.out.println("CIPHER:" + p.cipherText);
+        System.out.println("DECRYPTION:" + p.decrypt(p.cipherText));
     }
 }
