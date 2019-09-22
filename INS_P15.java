@@ -9,11 +9,11 @@ import java.math.BigInteger;
 
 final class SHA1{
     String inputText,hash,binary;  
-    String H0 = "67DE2A01";
-    String H1 = "BB03E28C";
-    String H2 = "011EF1DC";
-    String H3 = "9293E9E2";
-    String H4 = "CDEF23A9";
+    String H0 = "67452301";
+    String H1 = "EFCDAB89";
+    String H2 = "98BADCFE";
+    String H3 = "10325476";
+    String H4 = "C3D2E1F0";
     String A;
     String B;
     String C;
@@ -65,7 +65,6 @@ final class SHA1{
     
     String AND(String _1, String _2) {
         int l = _1.length();
-//        System.out.println(_1.length()+","+_2.length());
         String and = "";
         for (int i = 0; i < l; i++) {
             char __1, __2;
@@ -98,7 +97,6 @@ final class SHA1{
     
     String NOT(String _1) {
         int l = _1.length();
-//        System.out.println(l);
         String or = "";
         for (int i = 0; i < l; i++) {
             char __1;
@@ -137,56 +135,30 @@ final class SHA1{
         H4 = new String(E);
         binary = generateBinary(inputText);
         binary = appendZeros(binary);
-//        System.out.println(A);
-//        System.out.println(B);
-//        System.out.println(C);
-//        System.out.println(D);
-//        System.out.println(E);
         generateHash();
     }
     
     void generateHash(){
         String f="",k="",temp="";
         
-        
+        System.out.println(
+                new BigInteger(binaryToHex(H0),16)+" "
+                + new BigInteger(binaryToHex(H1),16)+" "
+                + new BigInteger(binaryToHex(H2),16)+" "
+                + new BigInteger(binaryToHex(H3),16)+" "
+                + new BigInteger(binaryToHex(H4),16)+" "
+        );
         
         for (int i = 0; i < 16; i++) {
             w[i] = binary.substring(i*32 , i*32 + 32);
-//            System.out.println(w[i].length());
         }
         
-//        for i from 16 to 79
-//        w[i] = (w[i-3] xor w[i-8] xor w[i-14] xor w[i-16]) leftrotate 1
-        
-        for (int i = 16; i < 79; i++) {
+        for (int i = 16; i <= 79; i++) {
             w[i] = leftRotate(XOR(XOR(XOR(w[i-3],w[i-8]),w[i-14]),w[i-16]),1);
         }
         
-//        for i from 0 to 79
-//        if 0 ≤ i ≤ 19 then
-//            f = (b and c) or ((not b) and d)
-//            k = 0x5A827999
-//        else if 20 ≤ i ≤ 39
-//            f = b xor c xor d
-//            k = 0x6ED9EBA1
-//        else if 40 ≤ i ≤ 59
-//            f = (b and c) or (b and d) or (c and d) 
-//            k = 0x8F1BBCDC
-//        else if 60 ≤ i ≤ 79
-//            f = b xor c xor d
-//            k = 0xCA62C1D6
-//
-//        temp = (a leftrotate 5) + f + e + k + w[i]
-//        e = d
-//        d = c
-//        c = b leftrotate 30
-//        b = a
-//        a = temp
-        
-        for (int i = 0; i < 79; i++) {
+        for (int i = 0; i < 80; i++) {
            if(0 <= i && i <= 19){
-//               f = (b and c) or ((not b) and d)
-//                System.out.println(i);
                 f = OR(AND(B,C),AND(NOT(B),D));
                 k = "5A827999";
                 String v = new String(k);
@@ -196,7 +168,6 @@ final class SHA1{
                 }
            } 
            else if(20 <= i && i <= 39){
-//               f = b xor c xor d
                 f = XOR(XOR(B,C),D);
                 k = "6ED9EBA1";
                 String v = new String(k);
@@ -206,7 +177,6 @@ final class SHA1{
                 }
            } 
            else if(40 <= i && i <= 59){
-//               f = (b and c) or (b and d) or (c and d)
                 f = OR(OR(AND(B,C),AND(B,D)),AND(C,D));
                 k = "8F1BBCDC";
                 String v = new String(k);
@@ -216,8 +186,7 @@ final class SHA1{
                 }
            } 
            else if(60 <= i && i <= 79){
-//               f = (b and c) or (b and d) or (c and d)
-                f = OR(OR(AND(B,C),AND(B,D)),AND(C,D));
+                f = XOR(XOR(B, C),D);
                 k = "CA62C1D6";
                 String v = new String(k);
                 k = "";
@@ -225,19 +194,20 @@ final class SHA1{
                     k += hexToBinary(c);
                 }
            } 
-//           temp = (a leftrotate 5) + f + e + k + w[i]
-//            e = d
-//            d = c
-//            c = b leftrotate 30
-//            b = a
-//            a = temp
-//            temp = leftRotate(A, 5) + f + E + k + w[i];
             temp = modAdd32(modAdd32(modAdd32(modAdd32(leftRotate(A, 5), f),E),k),w[i]);
             E = D;
             D = C;
             C = leftRotate(B, 30);
             B = A;
             A = temp;
+            
+            System.out.println(i + ") "
+                + binaryToHex(A)+"\t"
+                + binaryToHex(B)+"\t"
+                + binaryToHex(C)+"\t"
+                + binaryToHex(D)+"\t"
+                + binaryToHex(E)+" "
+            );
             
         }
         
@@ -247,9 +217,6 @@ final class SHA1{
         H3 = modAdd32(H3, D);
         H4 = modAdd32(H4, E);
         
-//        hh = (h0 leftshift 128) or (h1 leftshift 96) or (h2 leftshift 64) or (h3 leftshift 32) or h4
-        
-//        hash = leftRotate(H0,128),leftRotate(H1,96),leftRotate(H2,64),leftRotate(H3,32)
           hash = binaryToHex(H0 + H1 + H2 + H3 +H4);
           System.out.println(hash);
     }
@@ -264,7 +231,6 @@ final class SHA1{
         for (int i = 0; i < zeros; i++) {
             t = "0" + t;
         }
-//        System.out.println(t.length());
         return t;
     }
     
@@ -311,6 +277,5 @@ final class SHA1{
 public class INS_P15 {
     public static void main(String[] args) {
         SHA1 s1 = new SHA1("abc");        
-        SHA1 s2 = new SHA1("abd");        
     }
 }
