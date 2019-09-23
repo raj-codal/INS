@@ -1,6 +1,7 @@
 package ins;
 
 import java.math.BigInteger;
+import java.util.Scanner;
 
 /**
  *
@@ -139,8 +140,11 @@ final class SHA1{
     }
     
     void generateHash(){
-        String f="",k="",temp="";
-        
+        String f="",k="",temp="",chunks[];
+        int count = binary.length() / 512;
+//        System.out.println(count);
+        chunks = new String[count];
+
         System.out.println(
                 new BigInteger(binaryToHex(H0),16)+" "
                 + new BigInteger(binaryToHex(H1),16)+" "
@@ -149,76 +153,89 @@ final class SHA1{
                 + new BigInteger(binaryToHex(H4),16)+" "
         );
         
-        for (int i = 0; i < 16; i++) {
-            w[i] = binary.substring(i*32 , i*32 + 32);
+        for (int i = 0; i < count; i++) {
+            chunks[i] = binary.substring(i*512 , i*512 + 512);
         }
         
-        for (int i = 16; i <= 79; i++) {
-            w[i] = leftRotate(XOR(XOR(XOR(w[i-3],w[i-8]),w[i-14]),w[i-16]),1);
-        }
-        
-        for (int i = 0; i < 80; i++) {
-           if(0 <= i && i <= 19){
-                f = OR(AND(B,C),AND(NOT(B),D));
-                k = "5A827999";
-                String v = new String(k);
-                k = "";
-                for(char c : v.toCharArray()){
-                    k += hexToBinary(c);
-                }
-           } 
-           else if(20 <= i && i <= 39){
-                f = XOR(XOR(B,C),D);
-                k = "6ED9EBA1";
-                String v = new String(k);
-                k = "";
-                for(char c : v.toCharArray()){
-                    k += hexToBinary(c);
-                }
-           } 
-           else if(40 <= i && i <= 59){
-                f = OR(OR(AND(B,C),AND(B,D)),AND(C,D));
-                k = "8F1BBCDC";
-                String v = new String(k);
-                k = "";
-                for(char c : v.toCharArray()){
-                    k += hexToBinary(c);
-                }
-           } 
-           else if(60 <= i && i <= 79){
-                f = XOR(XOR(B, C),D);
-                k = "CA62C1D6";
-                String v = new String(k);
-                k = "";
-                for(char c : v.toCharArray()){
-                    k += hexToBinary(c);
-                }
-           } 
-            temp = modAdd32(modAdd32(modAdd32(modAdd32(leftRotate(A, 5), f),E),k),w[i]);
-            E = D;
-            D = C;
-            C = leftRotate(B, 30);
-            B = A;
-            A = temp;
+        for(String chunk: chunks){
             
-            System.out.println(i + ") "
-                + binaryToHex(A)+"\t"
-                + binaryToHex(B)+"\t"
-                + binaryToHex(C)+"\t"
-                + binaryToHex(D)+"\t"
-                + binaryToHex(E)+" "
-            );
+            A = H0;
+            B = H1;
+            C = H2;
+            D = H3;
+            E = H4;
             
+            for (int i = 0; i < 16; i++) {
+                w[i] = chunk.substring(i*32 , i*32 + 32);
+            }
+
+            for (int i = 16; i <= 79; i++) {
+                w[i] = leftRotate(XOR(XOR(XOR(w[i-3],w[i-8]),w[i-14]),w[i-16]),1);
+            }
+
+            for (int i = 0; i < 80; i++) {
+               if(0 <= i && i <= 19){
+                    f = OR(AND(B,C),AND(NOT(B),D));
+                    k = "5A827999";
+                    String v = new String(k);
+                    k = "";
+                    for(char c : v.toCharArray()){
+                        k += hexToBinary(c);
+                    }
+               } 
+               else if(20 <= i && i <= 39){
+                    f = XOR(XOR(B,C),D);
+                    k = "6ED9EBA1";
+                    String v = new String(k);
+                    k = "";
+                    for(char c : v.toCharArray()){
+                        k += hexToBinary(c);
+                    }
+               } 
+               else if(40 <= i && i <= 59){
+                    f = OR(OR(AND(B,C),AND(B,D)),AND(C,D));
+                    k = "8F1BBCDC";
+                    String v = new String(k);
+                    k = "";
+                    for(char c : v.toCharArray()){
+                        k += hexToBinary(c);
+                    }
+               } 
+               else if(60 <= i && i <= 79){
+                    f = XOR(XOR(B, C),D);
+                    k = "CA62C1D6";
+                    String v = new String(k);
+                    k = "";
+                    for(char c : v.toCharArray()){
+                        k += hexToBinary(c);
+                    }
+               } 
+                temp = modAdd32(modAdd32(modAdd32(modAdd32(leftRotate(A, 5), f),E),k),w[i]);
+                E = D;
+                D = C;
+                C = leftRotate(B, 30);
+                B = A;
+                A = temp;
+
+                System.out.println(i + ") "
+                    + binaryToHex(A)+"\t"
+                    + binaryToHex(B)+"\t"
+                    + binaryToHex(C)+"\t"
+                    + binaryToHex(D)+"\t"
+                    + binaryToHex(E)+" "
+                );
+
+            }
+
+            H0 = modAdd32(H0, A);
+            H1 = modAdd32(H1, B);
+            H2 = modAdd32(H2, C);
+            H3 = modAdd32(H3, D);
+            H4 = modAdd32(H4, E);
         }
         
-        H0 = modAdd32(H0, A);
-        H1 = modAdd32(H1, B);
-        H2 = modAdd32(H2, C);
-        H3 = modAdd32(H3, D);
-        H4 = modAdd32(H4, E);
         
           hash = binaryToHex(H0 + H1 + H2 + H3 +H4);
-          System.out.println(hash);
     }
     
     String modAdd32(String a, String b){
@@ -276,6 +293,9 @@ final class SHA1{
 
 public class INS_P15 {
     public static void main(String[] args) {
-        SHA1 s1 = new SHA1("abc");        
+        System.out.println("ENTER PLAIN TEXT:");
+        Scanner in = new Scanner(System.in);
+        SHA1 s1 = new SHA1(in.nextLine());        
+        System.out.println("HASH:"+s1.hash);
     }
 }
