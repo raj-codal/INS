@@ -2,6 +2,7 @@ package ins;
 
 import java.math.BigInteger;
 import java.security.*;
+import java.util.Scanner;
 
 /**
  *
@@ -86,7 +87,16 @@ class GlobalData{
 public class INS_P16_1 {
     public static void main(String[] args) throws NoSuchAlgorithmException {
         GlobalData.configure(283, 47, 0);
-        DSA d = new DSA(24, "hello");
-        System.out.println(d.verify(d.r, d.s, d.m, d.y));
+        System.out.println("ENTER p,q,h :");
+        Scanner in = new Scanner(System.in);
+        GlobalData.configure(in.nextInt(), in.nextInt(), in.nextInt());
+        System.out.println("ENTER x :");
+        int x = in.nextInt();
+        in.nextLine();
+        System.out.println("ENTER Message :");
+        String m = in.nextLine();
+        DSA d = new DSA(x, m);
+        System.out.println("(k,r,s,y) = (" + d.k+ "," + d.r + "," + d.s + "," + d.y + ")");
+        System.out.println("VERIFICATION:"+d.verify(d.r, d.s, d.m, d.y));
     }
 }
