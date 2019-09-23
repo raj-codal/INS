@@ -84,7 +84,7 @@ class numbers{
     
     int findPrimitive(int n)  
     { 
-        HashSet<Integer> s = new HashSet<Integer>(); 
+        ArrayList<Integer> s = new ArrayList<Integer>(); 
         if (isPrime(n) == false){ 
             return -1; 
         }  
