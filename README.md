@@ -1,4 +1,4 @@
-# INS
+# Information and Network Security
 
 1 Write a C/C++ program to find GCD of two numbers. Also check whether a number is prim or not. Display a list of first 100 prime numbers.
 
