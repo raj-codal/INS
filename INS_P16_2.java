@@ -1,4 +1,4 @@
-// package ins;
+package ins;
 
 import java.util.*;
 import java.math.*;
